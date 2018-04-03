@@ -1,0 +1,37 @@
+Exercício de consultas MongoDB
+Ítalo Epifânio de Lima e Silva - italoepifaniols@gmail.com
+
+db.movies.find({director:”Stanley Kubrick”}).count()
+=> 2
+
+db.movies.find({$or: [{director:"Stanley Kubrick"}, {director:"Sergio Leone"}]}).count()
+    => 4
+
+db.movies.find({$and: [{genres: "Comedy"}, {year:1991}]}).count()
+    => 16
+
+ db.movies.find({$and: [{"genres.0": "Comedy"}, {year:1991}]}).count()
+    => 12
+
+db.movies.find({$and: [{"genres.0": "Comedy"}, {"year":1991}]}, {title:1}).sort({runtime:-1}).limit(1).pretty()
+    => { "_id" : ObjectId("5ab1374b1d69760c26ac70ea"), "title" : "Night on Earth" }
+
+db.movies.find({year:{$gte: 1990, $lt: 1999}}).count()
+=>267
+
+ db.movies.find({ $and: [{year:{$gte: 1990, $lt: 1999}}, {"imdb.rating":{$gt:8.5}}]})._addSpecial("$orderBy", {"title":-1}).pretty()
+
+db.movies.find({countries:"Brazil"},{"director":1}).sort({"awards.wins":-1}).limit(1).pretty()
+    => “Breno Silveira”
+
+db.movies.update({"title":"Brazilian Western"}, {$set: {"awards.wins":8}})
+
+db.movies.update({countries: "Italy"}, {$unset: {poster:1}}, {multi:true})
+
+db.movies.update({title:"Bound for Glory"}, {$pull: {genres:{$in : ["Drama"]}}})
+
+db.movies.deleteMany({$or: [{year:1968}, {year:1975}]})
+=>{ "acknowledged" : true, "deletedCount" : 32 }
+
+   
+    

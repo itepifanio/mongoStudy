@@ -1,0 +1,30 @@
+a)
+db.grades.aggregate([{$group: {_id: "$student_id", "maiorMedia": {$avg:"$score"}}}
+,{$group: {_id : "$student_id", "maxMedia": {$max: "$maiorMedia"}}}])
+
+b)
+db.grades.aggregate([{$match:{type:"homework"}}, { $group: { _id: "$student_id", topScore: { $max : "$score"}}}, {$sort:{_id:-1}}])
+
+c) 
+db.students.aggregate([{ $unwind : "$scores"}, {$group:{_id:"$_id", "media":{$avg : "$scores.score"}}}, {$sort:{media:-1}}, {$limit: 1}]).pretty()
+
+d)
+var v = db.students.aggregate([{$unwind:"$scores"},{$match : {"scores.type":"homework"}}, {$group: {_id:"$_id", menorNota: {$min: "$scores.score"}}}]).toArray();
+
+db.students.aggregate([{$project : {scores:1}}]).toArray().forEach(function(estudante){
+     estudante.scores.forEach(function(notaEstudante){
+        v.forEach(function(vItem){
+            if(vItem.menorNota == notaEstudante.score && vItem._id == estudante._id){
+                db.students.update(
+                    {_id: estudante._id},
+                    {$pull: {scores : {type: "homework", score: notaEstudante.score}}}
+                );
+            }
+        });
+    });
+});
+
+e) 
+db.posts.aggregate([{$unwind:"$comments"}, {$group:{_id:"$comments.author", totalComentarios: {$sum: 1}}}, {$sort: {totalComentarios :-1}}, {$limit: 1}])
+
+
