@@ -16,3 +16,9 @@ do mongodb
 
 Pasta que contém consultas utilizando o aggregation do mongodb, utilizando
 três bases de dados diferentes, grades.js, posts.js e students.js
+
+## JavaApplication
+
+Projeto simples conectando Java e o MongoDB, inserindo e atualizando dados, 
+criando um novo banco, assim como novas coleções.
+
