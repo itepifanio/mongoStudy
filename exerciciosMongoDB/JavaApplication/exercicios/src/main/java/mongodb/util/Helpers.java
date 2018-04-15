@@ -1,4 +1,4 @@
-package javaapplication.util;
+package mongodb.util;
 
 import org.bson.Document;
 import org.bson.codecs.DocumentCodec;
@@ -18,7 +18,6 @@ public class Helpers {
                                                  .isEncodingCollectibleDocument(true)
                                                  .build());
         System.out.println(jsonWriter.getWriter());
-        // System.out.println();
         System.out.flush();
     }
 }
