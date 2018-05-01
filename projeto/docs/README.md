@@ -72,4 +72,4 @@ Para criar uma quebra de linha centralizada na equação você utiliza:
 
 ### Orientações gerais
 
-(Clique aqui)[http://www.letmegooglethat.com/?q=latex]
+[Clique aqui](http://www.letmegooglethat.com/?q=latex)
