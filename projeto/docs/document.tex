@@ -1,0 +1,122 @@
+\documentclass[
+	article,
+	11pt,
+	twoside,
+	a4paper,
+	english,
+	brazil,
+	sumario=tradicional
+	]{abntex2}
+
+\usepackage{helvet} 
+\usepackage[T1]{fontenc}		
+\usepackage[utf8]{inputenc}	
+\usepackage{indentfirst}
+\usepackage{nomencl}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{scalefnt}
+\usepackage{authblk}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+
+\linespread{1.5}
+
+\renewcommand\Authands{ e }
+\renewcommand{\familydefault}{\sfdefault}
+
+\setlrmarginsandblock{4cm}{4cm}{*}
+\setulmarginsandblock{4cm}{4cm}{*}
+\checkandfixthelayout
+
+%\usepackage[brazilian,hyperpageref]{backref}	 % 
+\usepackage[alf]{abntex2cite}
+
+\titulo{Fundamentos de contagem} 
+\author[*]{Ítalo Epifânio de Lima e Silva}
+\author[*]{Brunno}
+\author[*]{Robson}
+\affil[*]{Universidade Federal do Rio Grande do Norte, UFRN}
+
+\local{Natal, RN}
+\data{2018}
+
+\definecolor{blue}{RGB}{41,5,195}
+
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={Modelo de artigo científico com abnTeX2},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{atigo científico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+
+\makeindex
+
+
+\setlrmarginsandblock{3cm}{3cm}{*}
+\setulmarginsandblock{3cm}{3cm}{*}
+\checkandfixthelayout
+
+\setlength{\parindent}{1.3cm}
+
+\setlength{\parskip}{0.2cm}  
+
+\SingleSpacing
+
+\begin{document}
+
+\frenchspacing 
+
+\maketitle
+
+\textual
+
+\section*{Introdução}
+\addcontentsline{toc}{section}{Introdução}
+\input{esqueleto/introducao.tex}
+
+\section*{Referencial Teórico}
+\addcontentsline{toc}{section}{Referencial Teórico}
+\input{esqueleto/referencial.tex}
+
+\section*{Metodologia}
+\addcontentsline{toc}{section}{Metodologia}
+\input{esqueleto/metodologia.tex}
+
+\section*{Desenvolvimento}
+\addcontentsline{toc}{section}{Desenvolvimento}
+\input{esqueleto/desenvolvimento.tex}
+
+\section*{Resultados e discussões}
+\addcontentsline{toc}{section}{Resultados e discussões}
+\input{esqueleto/resultados.tex}
+
+\section*{Conclusão}
+\addcontentsline{toc}{section}{Conclusão}
+\input{esqueleto/conclusao.tex}
+
+%Esse postextual só é usado em caso de referências
+
+\postextual
+
+\onecolumn{
+	\bibliography{referencias/referencias.bib}
+}
+
+
+\end{document}
