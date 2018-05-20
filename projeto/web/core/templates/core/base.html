@@ -14,34 +14,54 @@
   <link href="{% static 'core/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+  <nav role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Professor Sheet Cheap</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="#">Login</a></li>
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="#">Login</a></li>
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">Professor Sheet Cheap</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      </div>
-      <br><br>
-
+  <!-- Inicia carousel -->
+    <div class="slider" height="500px">
+        <ul class="slides">
+                <li style="background-color: #A9CAB9">
+                <img class="img-responsive" src="{% static 'core/images/thief.jpg' %}">
+                <div class="caption center-align">
+                    <h3>Professor Sheet Cheap!</h3>
+                    <h5 class="light white-text text-lighten-4" style="color:#fff">
+                        <p>Roubamos os dados da UFRN para você possa avaliar as taxas de aprovação dos professores</p>
+                        <p>Evite aquele professor carrasco e aumente suas chances de aprovação</p>
+                    </h5>
+                </div>
+            </li>
+            <li style="background-color: #8FB9A1">
+                <img class="img-responsive" src="{% static 'core/images/analysis.jpg' %}">
+                <div class="caption center-align">
+                    <h3>Análise de dados estatísticos</h3>
+                    <h5 class="light grey-text text-lighten-3">
+                        <p>Veja os dados e estatísticas que disponibilizamos</p>
+                        <p>Gerencie suas matrículas a partir da taxa de aprovação dos professores</p>
+                    </h5>
+                </div>
+            </li>
+            <li style="background-color: #95BAA8">
+                <img class="img-responsive" src="{% static 'core/images/peaceful.jpg' %}">
+                <div class="caption center-align">
+                    <h3>Se matricule sem dores de cabeça</h3>
+                    <h5 class="light grey-text text-lighten-3">
+                        <p>Pague a disciplina tranquilo</p>
+                        <p>Mantenha a plenitude e hidrate-se</p>
+                    </h5>
+                </div>
+            </li>
+        </ul>
     </div>
-  </div>
-
-
+    <!-- Fim carousel -->
   <div class="container">
     <div class="section">
 
@@ -79,12 +99,13 @@
     <br><br>
   </div>
 
-  <footer class="page-footer orange">
+  <footer class="page-footer" style="background-color: #2B4141">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <h5 class="white-text">Professor Sheet Cheap</h5>
+          <p class="grey-text text-lighten-4">Utilizamos os dados abertos da UFRN e da API da UFRN para, através do seu login do SIGAA, exibir estatisticas de aprovação de professores de acordo com sua grade curricular.
+              Avalie os riscos e evite professores carrascos</p>
 
 
         </div>
@@ -110,7 +131,13 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+          <span class="copyleft" style="font-size:17px">&copy;</span>
+            Desenvolvido por
+                <a class="orange-text text-lighten-3" href="https://github.com/itepifanio">Ítalo Epifânio</a>
+                &
+                <a class="orange-text text-lighten-3" href="https://github.com/brunnomoreira">Brunno Moreira</a>
+                <p>Template por   <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a></p>
+                <p>Imagens por <a class="orange-text text-lighten-3" href="https://www.freepik.com/dooder">Dooder</a> </p>
       </div>
     </div>
   </footer>
@@ -120,6 +147,12 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{% static 'core/js/materialize.js' %}"></script>
   <script src="{% static 'core/js/init.js' %}"></script>
-
+  <!-- Carousel script -->
+  <script>
+      $(document).ready(function () {
+           $('.slider').slider({full_width: true});
+       });
+  </script>
+  <!-- End carousel script -->
   </body>
 </html>

@@ -12,3 +12,24 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+.copyleft {
+  display:inline-block;
+  transform: rotate(180deg);
+}
+
+.slider .slides li .caption p{
+    color: #fff;
+}
+
+.slider .slides li img{
+    width: 25%;
+}
+
+nav{
+    background-color: #393d3f;
+}
+
+.material-icons{
+    color: #393d3f;
+}
