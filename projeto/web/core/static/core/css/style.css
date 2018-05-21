@@ -1,0 +1,35 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+.copyleft {
+  display:inline-block;
+  transform: rotate(180deg);
+}
+
+.slider .slides li .caption p{
+    color: #fff;
+}
+
+.slider .slides li img{
+    width: 25%;
+}
+
+nav{
+    background-color: #393d3f;
+}
+
+.material-icons{
+    color: #393d3f;
+}
