@@ -11,7 +11,7 @@ Consiste em um sistema web que consome os dados abertos da UFRN, utilizando os d
 
 O aluno irá se logar através da autenticação da SINFO. Quando logado recuperaremos seu vínculo ativo da graduação, recuperando o semestre atual e a estrutura curricular do aluno, assim o discente poderá acessar através das disciplinas quais os professores disponíveis e a taxa de aprovação de cada um deles.
 
-O projeto será escrito em Python e Django, utilizando MongoDB. O banco de dados será estruturado utilizando os dados abertos da UFRN, entretanto, serão feitas algumas adaptações nesses dados utilizando o Jupyter Notebook, algo que pode ser acompanhado na pasta [tratandoCSV](https://github.com/itepifanio/mongoStudy/blob/master/projeto/tratandoCSV/Turmas%20de%20graduacao%202015-2018%20.ipynb).
+O projeto será escrito em Python e Django, utilizando MongoDB. O banco de dados será estruturado utilizando os dados abertos da UFRN, entretanto, serão feitas algumas adaptações nesses dados utilizando o Jupyter Notebook, algo que pode ser acompanhado na pasta [tratandoCSV](https://github.com/itepifanio/mongoStudy/blob/master/projeto/tratandoCSV).
 
 Todo o banco estará disponível no serviço de banco de dados do MongoDB, o Atlas. 
 
@@ -24,6 +24,16 @@ Todo o banco estará disponível no serviço de banco de dados do MongoDB, o Atl
 - Banco de dados utilizados é o MongoDB
 
 - Serviço de cloud do MongoDB, Atlas
+
+## Padrões de projeto
+
+O nosso banco de dados utiliza o MongoDB como SGBD, porém utiliza coleções advindas do [Portal de dados abertos da UFRN](http://dados.ufrn.br/), então optamos por não utilizar o sistema ORM do Django, assim como não utilizar os models.py do Django, visto que a estrutura do banco de dados vem dos CSV's  filtrados na pasta [tratandoCSV](https://github.com/itepifanio/mongoStudy/blob/master/projeto/tratandoCSV).
+
+## Rodando o projeto
+
+1. Crie um virtualenv com `` pipenv shell `` (Caso não tenha o pipenv instalado, instale-o: `` pip install pipenv `` )
+2. Instale as dependências `` pipenv install ``
+3. Crie e import os json tratados do projeto `` mongoimport --db professorCheatSheet --collection NomeDoJsonAqui --file tododiretorioatéaqui/mongoStudy/projeto/tratandoCSV/NomeDoJsonAqui.json ``
 
 ## Recomendações de contribuição
 
@@ -41,4 +51,3 @@ Todo o banco estará disponível no serviço de banco de dados do MongoDB, o Atl
 
 - Brunno Moreira da Silva
 - Ítalo Epifânio de Lima e Silva
-- Robson Carreiro Dias
