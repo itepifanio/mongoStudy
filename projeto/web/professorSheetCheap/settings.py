@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+try:
+    from professorSheetCheap import local_settings
+except ImportError:
+    from professorSheetCheap import local_settings_sample as local_settings
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -62,7 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages'
             ],
         },
     },
@@ -119,3 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BASE_URL = "http://localhost:8000"
+
+API_SIGAA = {
+    'BASE_URL': 'https://api.info.ufrn.br',
+    'AUTH_URL': 'https://autenticacao.info.ufrn.br/authz-server/oauth',
+    'REDIRECT_URI': BASE_URL + "/init_session",
+    'CREDENTIALS': local_settings.API_SIGAA_CREDENTIALS
+}
