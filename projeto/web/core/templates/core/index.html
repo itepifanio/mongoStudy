@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block navbar %}
-  {% if request.session.has %}
+  {% if request.session.user %}
     <li><a href="/"> Home </a></li>
     <li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
   {% else %}

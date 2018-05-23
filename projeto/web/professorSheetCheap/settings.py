@@ -125,11 +125,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-BASE_URL = "http://localhost:8000"
+BASE_URL ='http://localhost:8000'
+
+API_SIGAA_BASE_URL = 'https://api.info.ufrn.br'
 
 API_SIGAA = {
-    'BASE_URL': 'https://api.info.ufrn.br',
+    'BASE_URL': API_SIGAA_BASE_URL,
     'AUTH_URL': 'https://autenticacao.info.ufrn.br/authz-server/oauth',
-    'REDIRECT_URI': BASE_URL + "/init_session",
-    'CREDENTIALS': local_settings.API_SIGAA_CREDENTIALS
+    'REDIRECT_URI': BASE_URL + "/authenticate",
+    'CREDENTIALS': local_settings.API_SIGAA_CREDENTIALS,
+    'ENDPOINTS': {
+        'USUARIO': API_SIGAA_BASE_URL + '/usuario/v0.1/usuarios'
+    }
 }
