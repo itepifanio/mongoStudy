@@ -45,7 +45,10 @@ def teste(request):
                             {
                                 # No fluxo, quando vier o id_disciplina adicionar
                                 # aqui um "$and" ["$id_componente", id_disciplina]
-                                "$eq": ["$id_docente_interno", "$$id_servidor"]
+                                "$and": [
+                                    {"$eq": ["$id_docente_interno", "$$id_servidor"]},
+                                    {"$eq": ["$id_componente_curricular", 57807]}
+                                ]
                             }
                         }
                     },
@@ -61,21 +64,24 @@ def teste(request):
                 "as": "turmas_lecionadas"
             },
         },
+        # Tendo o id da disciplina eu só vou ter uma turma_lecionada
+        # por cada professor, então posso realizar unwind dessa turma
+        {"$unwind":"$turmas_lecionadas"},
         {
             "$project": {
                 "_id": 0,
                 "id_servidor": 1,
                 "nome": 1,
-                "turmas_lecionadas": 1
+                "turmas_lecionadas": 1,
             }
-        }
+        },
     ]
     # Só retorna um dos docentes
-    for doc in db['docentes'].aggregate(pipeline):
-        return HttpResponse(
-            json_util.dumps(
-                doc, sort_keys=True,
-                indent=4, default=json_util.default
-            ),
-            content_type="application/json"
-        )
+
+    return HttpResponse(
+        json_util.dumps(
+            db['docentes'].aggregate(pipeline), sort_keys=True,
+            indent=4, default=json_util.default
+        ),
+        content_type="application/json"
+    )

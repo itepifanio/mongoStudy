@@ -33,7 +33,7 @@ O nosso banco de dados utiliza o MongoDB como SGBD, porém utiliza coleções ad
 
 1. Crie um virtualenv com `` pipenv shell `` (Caso não tenha o pipenv instalado, instale-o: `` pip install pipenv `` )
 2. Instale as dependências `` pipenv install ``
-3. Crie e import os json tratados do projeto `` mongoimport --db professorCheatSheet --collection NomeDoJsonAqui --file tododiretorioatéaqui/mongoStudy/projeto/tratandoCSV/NomeDoJsonAqui.json ``
+3. Crie e import os json tratados do projeto `` mongoimport --db professorCheatSheet --collection NomeDoJsonAqui --file tododiretorioatéaqui/mongoStudy/projeto/tratandoCSV/NomeDoJsonAqui.json --jsonArray``
 
 ## Recomendações de contribuição
 
