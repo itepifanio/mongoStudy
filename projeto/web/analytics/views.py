@@ -43,8 +43,6 @@ def teste(request):
                     "$match":
                         {"$expr":
                             {
-                                # No fluxo, quando vier o id_disciplina adicionar
-                                # aqui um "$and" ["$id_componente", id_disciplina]
                                 "$and": [
                                     {"$eq": ["$id_docente_interno", "$$id_servidor"]},
                                     {"$eq": ["$id_componente_curricular", 57807]}
@@ -73,6 +71,23 @@ def teste(request):
                 "id_servidor": 1,
                 "nome": 1,
                 "turmas_lecionadas": 1,
+            }
+        },
+        {
+            "$lookup": {
+                "from": "matriculas",
+                "let": {"turmas_lecionadas":"$turmas_lecionadas.id_turma"},
+                "pipeline": [
+                    {
+                    "$match":
+                        {"$expr":
+                            {
+                                "$eq": ["$id_turma", "$$turmas_lecionadas"]
+                            }
+                        }
+                    },
+                ],
+                "as": "alunos_lecionadas"
             }
         },
     ]
