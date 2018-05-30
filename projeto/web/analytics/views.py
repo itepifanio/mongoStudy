@@ -45,7 +45,9 @@ def teste(request):
                             {
                                 "$and": [
                                     {"$eq": ["$id_docente_interno", "$$id_servidor"]},
-                                    {"$eq": ["$id_componente_curricular", 57807]}
+                                        #FMC1 55022
+                                        #FMC2 55025
+                                        {"$eq": ["$id_componente_curricular", 55025]}
                                 ]
                             }
                         }
@@ -59,39 +61,44 @@ def teste(request):
                         }
                     }
                 ],
-                "as": "turmas_lecionadas"
+                "as": "turma_lecionada"
             },
         },
         # Tendo o id da disciplina eu só vou ter uma turma_lecionada
         # por cada professor, então posso realizar unwind dessa turma
-        {"$unwind":"$turmas_lecionadas"},
+        {"$unwind":"$turma_lecionada"},
         {
             "$project": {
                 "_id": 0,
                 "id_servidor": 1,
                 "nome": 1,
-                "turmas_lecionadas": 1,
+                "turma_lecionada": 1,
             }
         },
         {
             "$lookup": {
                 "from": "matriculas",
-                "let": {"turmas_lecionadas":"$turmas_lecionadas.id_turma"},
+                "let": {"turma_lecionada":"$turma_lecionada.id_turma"},
                 "pipeline": [
                     {
-                    "$match":
-                        {"$expr":
-                            {
-                                "$eq": ["$id_turma", "$$turmas_lecionadas"]
+                        "$match":
+                            {"$expr":
+                                {
+                                    "$eq": ["$id_turma", "$$turma_lecionada"]
+                                }
                             }
-                        }
                     },
+                    {
+                        "$group": {
+                            "_id": "$descricao",
+                            "num_aprovacao": {"$sum": 1},
+                        }
+                    }
                 ],
-                "as": "alunos_lecionadas"
+                "as": "alunos_lecionados"
             }
         },
     ]
-    # Só retorna um dos docentes
 
     return HttpResponse(
         json_util.dumps(
