@@ -17,86 +17,24 @@
   <nav role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Professor Sheet Cheap</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Login</a></li>
+        {% block navbar %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+        {% endblock %}
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Login</a></li>
+        {% block navbar-mobile %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+        {% endblock %}
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-  <!-- Inicia carousel -->
-    <div class="slider" height="500px">
-        <ul class="slides">
-                <li style="background-color: #A9CAB9">
-                <img class="img-responsive" src="{% static 'core/images/thief.jpg' %}">
-                <div class="caption center-align">
-                    <h3>Professor Sheet Cheap!</h3>
-                    <h5 class="light white-text text-lighten-4" style="color:#fff">
-                        <p>Roubamos os dados da UFRN para você possa avaliar as taxas de aprovação dos professores</p>
-                        <p>Evite aquele professor carrasco e aumente suas chances de aprovação</p>
-                    </h5>
-                </div>
-            </li>
-            <li style="background-color: #8FB9A1">
-                <img class="img-responsive" src="{% static 'core/images/analysis.jpg' %}">
-                <div class="caption center-align">
-                    <h3>Análise de dados estatísticos</h3>
-                    <h5 class="light grey-text text-lighten-3">
-                        <p>Veja os dados e estatísticas que disponibilizamos</p>
-                        <p>Gerencie suas matrículas a partir da taxa de aprovação dos professores</p>
-                    </h5>
-                </div>
-            </li>
-            <li style="background-color: #95BAA8">
-                <img class="img-responsive" src="{% static 'core/images/peaceful.jpg' %}">
-                <div class="caption center-align">
-                    <h3>Se matricule sem dores de cabeça</h3>
-                    <h5 class="light grey-text text-lighten-3">
-                        <p>Pague a disciplina tranquilo</p>
-                        <p>Mantenha a plenitude e hidrate-se</p>
-                    </h5>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <!-- Fim carousel -->
+
+  {% block header %} {% endblock %}
+
   <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <br><br>
+    {% block content %} {% endblock %}
   </div>
 
   <footer class="page-footer" style="background-color: #2B4141">
@@ -106,9 +44,8 @@
           <h5 class="white-text">Professor Sheet Cheap</h5>
           <p class="grey-text text-lighten-4">Utilizamos os dados abertos da UFRN e da API da UFRN para, através do seu login do SIGAA, exibir estatisticas de aprovação de professores de acordo com sua grade curricular.
               Avalie os riscos e evite professores carrascos</p>
-
-
         </div>
+
         <div class="col l3 s12">
           <h5 class="white-text">Settings</h5>
           <ul>
@@ -118,6 +55,7 @@
             <li><a class="white-text" href="#!">Link 4</a></li>
           </ul>
         </div>
+
         <div class="col l3 s12">
           <h5 class="white-text">Connect</h5>
           <ul>
@@ -129,15 +67,16 @@
         </div>
       </div>
     </div>
+
     <div class="footer-copyright">
       <div class="container">
           <span class="copyleft" style="font-size:17px">&copy;</span>
-            Desenvolvido por
-                <a class="orange-text text-lighten-3" href="https://github.com/itepifanio">Ítalo Epifânio</a>
-                &
-                <a class="orange-text text-lighten-3" href="https://github.com/brunnomoreira">Brunno Moreira</a>
-                <p>Template por   <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a></p>
-                <p>Imagens por <a class="orange-text text-lighten-3" href="https://www.freepik.com/dooder">Dooder</a> </p>
+          Desenvolvido por
+          <a class="orange-text text-lighten-3" href="https://github.com/itepifanio">Ítalo Epifânio</a>
+          &
+          <a class="orange-text text-lighten-3" href="https://github.com/brunnomoreira">Brunno Moreira</a>
+          <p>Template por   <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a></p>
+          <p>Imagens por <a class="orange-text text-lighten-3" href="https://www.freepik.com/dooder">Dooder</a> </p>
       </div>
     </div>
   </footer>
@@ -147,12 +86,7 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{% static 'core/js/materialize.js' %}"></script>
   <script src="{% static 'core/js/init.js' %}"></script>
-  <!-- Carousel script -->
-  <script>
-      $(document).ready(function () {
-           $('.slider').slider({full_width: true});
-       });
-  </script>
-  <!-- End carousel script -->
+  <script src="{% static 'core/js/app.js' %}"></script>
+
   </body>
 </html>
