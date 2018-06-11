@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 pymongo = "*"
+requests = "*"
 
 [dev-packages]
 django-extensions = "*"

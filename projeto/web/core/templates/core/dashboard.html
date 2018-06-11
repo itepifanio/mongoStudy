@@ -1,0 +1,20 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block navbar %}
+  <li><a href="/"> Home </a></li>
+  <li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+{% endblock %}
+
+
+{% block content %}
+  <div class="section">
+    <!--   Icon Section   -->
+    <div class="row">
+      <div class="col s12 m4">
+        <h3> Dashboard </h3>
+        <h6> {{user.name}} </h6>
+      </div>
+    </div>
+  </div>
+{% endblock %}
