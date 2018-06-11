@@ -31,8 +31,16 @@ for poll in polls:
     print "Title : ",poll['title']
 """
 
-def teste(request):
+def teste(request, id_componente_curricular):
+    """
+    Retorna json com a consulta a partir do id_componente_curricular
+    retornando os professores que ministraram a disciplina e as taxas
+    de aprovação ou reprovação
+    """
     # Em teoria, pelo fluxo preterido, temos o id_disciplina
+    #FMC1 55022
+    #FMC2 55025
+
     pipeline = [
         {
             "$lookup": {
@@ -45,9 +53,8 @@ def teste(request):
                             {
                                 "$and": [
                                     {"$eq": ["$id_docente_interno", "$$id_servidor"]},
-                                        #FMC1 55022
-                                        #FMC2 55025
-                                        {"$eq": ["$id_componente_curricular", 55025]}
+
+                                        {"$eq": ["$id_componente_curricular", id_componente_curricular]}
                                 ]
                             }
                         }
@@ -98,6 +105,12 @@ def teste(request):
                 "as": "alunos_lecionados"
             }
         },
+        {
+            "$group": {
+                "_id": {"professor": "$nome", "id_servidor":"$id_servidor"},
+                "aprovacao": {"$push": "$alunos_lecionados"},
+            }
+        }
     ]
 
     return HttpResponse(
