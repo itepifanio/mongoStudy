@@ -6,6 +6,7 @@ from bson import json_util
 import pprint
 import json
 from django.http import HttpResponse
+from operator import itemgetter
 
 server = "localhost"
 port   = 27017
@@ -16,20 +17,6 @@ try:
     db = client.professorcheatsheet
 except:
     print("Problema na conexão")
-
-
-"""
-Recuperando um documento da coleção:
-Note que o primeiro parâmetro do find_one é a query
-o segundo a projeção
-print("title: ", poll['title']
-poll = conn.events.polls_post.find_one({}, {"title":1})
-
-Recuperando todos os documentos da coleção:
-polls = conn.events.polls_post.find({},{"title" : 1})
-for poll in polls:
-    print "Title : ",poll['title']
-"""
 
 def teste(request, id_componente_curricular):
     """
@@ -113,9 +100,28 @@ def teste(request, id_componente_curricular):
         }
     ]
 
+    objects = []
+
+    for object in db['docentes'].aggregate(pipeline):
+        aprovacao = 0
+        total = 0
+        for i in object['aprovacao']:
+            for k in i:
+                if k['_id'] == 'APROVADO' or k['_id'] == 'APROVADO POR NOTA':
+                    aprovacao += k['num_aprovacao']
+                if k['_id'] != 'INDEFERIDO' or k['_id'] != 'DESISTENCIA':
+                    total += k['num_aprovacao']
+        objects.append(
+            {
+                'professor':object['_id']['professor'],
+                'aprovacao': aprovacao,
+                'total': total
+            }
+        )
+
     return HttpResponse(
         json_util.dumps(
-            db['docentes'].aggregate(pipeline), sort_keys=True,
+            objects, sort_keys=False,
             indent=4, default=json_util.default
         ),
         content_type="application/json"
