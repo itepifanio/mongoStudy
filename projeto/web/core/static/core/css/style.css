@@ -33,3 +33,11 @@ nav{
 .material-icons{
     color: #393d3f;
 }
+
+.highlights tr:first-child td{
+    background-color: #00802B;
+}
+
+.highlights tr:first-child a{
+    color: white;
+}

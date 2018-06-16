@@ -18,11 +18,44 @@ try:
 except:
     print("Problema na conexão")
 
-def teste(request, id_componente_curricular):
+def listaProfessores(request, id_componente_curricular):
     """
-    Retorna json com a consulta a partir do id_componente_curricular
-    retornando os professores que ministraram a disciplina e as taxas
-    de aprovação ou reprovação
+    Recupera o json com os professores e suas turmas anteriores e filtra
+    eles para retornar apenas a taxa de aprovação, o nome do professor e
+    seu siape. Essa função não leva em conta a reprovação os dados de alunos
+    indefiridos ou desistentes (Mas leva em conta os alunos que trancaram a
+    disciplina)
+    """
+    professores = professorPorTurma(request, id_componente_curricular)
+
+    professores_filtrados = []
+
+    for professor in professores:
+        aprovacao = 0
+        total = 0
+        for i in professor['aprovacao']:
+            for k in i:
+                if k['_id'] == 'APROVADO' or k['_id'] == 'APROVADO POR NOTA':
+                    aprovacao += k['num_aprovacao']
+                if k['_id'] != 'INDEFERIDO' or k['_id'] != 'DESISTENCIA':
+                    total += k['num_aprovacao']
+        professores_filtrados.append(
+            {
+                'professor':professor['_id']['professor'],
+                'siape':professor['_id']['siape'],
+                'taxa': round((aprovacao*100)/total, 2)
+            }
+        )
+
+    return render(request, 'listaTaxaAprovacao.html', {'professores':professores_filtrados})
+
+
+def professorPorTurma(request, id_componente_curricular):
+    """
+    Retorna a consulta a partir do id_componente_curricular
+    retornando os nomes dos professores, seu siape e um array
+    de turmas contendo as quantidades de reprovados, desistentes
+    e aprovados
     """
     # Em teoria, pelo fluxo preterido, temos o id_disciplina
     #FMC1 55022
@@ -100,29 +133,17 @@ def teste(request, id_componente_curricular):
         }
     ]
 
-    objects = []
+    return db['docentes'].aggregate(pipeline)
 
-    for object in db['docentes'].aggregate(pipeline):
-        aprovacao = 0
-        total = 0
-        for i in object['aprovacao']:
-            for k in i:
-                if k['_id'] == 'APROVADO' or k['_id'] == 'APROVADO POR NOTA':
-                    aprovacao += k['num_aprovacao']
-                if k['_id'] != 'INDEFERIDO' or k['_id'] != 'DESISTENCIA':
-                    total += k['num_aprovacao']
-        objects.append(
-            {
-                'professor':object['_id']['professor'],
-                'siape':object['_id']['siape'],
-                'taxa': (aprovacao*100)/total
-            }
-        )
-    return render(request, 'listaTaxaAprovacao.html', {'professores':objects})
+def jsonProfessores(request):
+    """
+    Retorna o json da função professorPorTurma(request, id_componente_curricular)
+    """
+
     return HttpResponse(
         json_util.dumps(
-            objects, sort_keys=False,
-            indent=4, default=json_util.default
+            professorPorTurma(request, id_componente_curricular),
+            sort_keys=False, indent=4, default=json_util.default
         ),
         content_type="application/json"
     )
