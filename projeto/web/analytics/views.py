@@ -64,7 +64,7 @@ def teste(request, id_componente_curricular):
         {
             "$project": {
                 "_id": 0,
-                "id_servidor": 1,
+                "siape": 1,
                 "nome": 1,
                 "turma_lecionada": 1,
             }
@@ -94,7 +94,7 @@ def teste(request, id_componente_curricular):
         },
         {
             "$group": {
-                "_id": {"professor": "$nome", "id_servidor":"$id_servidor"},
+                "_id": {"professor": "$nome", "siape":"$siape"},
                 "aprovacao": {"$push": "$alunos_lecionados"},
             }
         }
@@ -114,11 +114,11 @@ def teste(request, id_componente_curricular):
         objects.append(
             {
                 'professor':object['_id']['professor'],
-                'aprovacao': aprovacao,
-                'total': total
+                'siape':object['_id']['siape'],
+                'taxa': (aprovacao*100)/total
             }
         )
-
+    return render(request, 'listaTaxaAprovacao.html', {'professores':objects})
     return HttpResponse(
         json_util.dumps(
             objects, sort_keys=False,
