@@ -33,3 +33,7 @@ nav{
 .material-icons{
     color: #393d3f;
 }
+
+#main {
+  min-height: 500px;
+}

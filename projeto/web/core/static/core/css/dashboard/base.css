@@ -1,0 +1,28 @@
+#breadcrumbs {
+  margin-top: 10px;
+}
+
+.container {
+  min-height: 500px;
+}
+
+.preloader-wrapper {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#spinner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+
+#content {
+  display: none;
+}
+
+#templates {
+  display: none;
+}

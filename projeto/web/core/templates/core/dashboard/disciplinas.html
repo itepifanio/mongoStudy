@@ -1,0 +1,49 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block dashboardStyle %}
+  
+{% endblock %}
+
+{% block breadcrumbs %}
+  <a href="/dashboard/cursos" class="breadcrumb">Cursos</a>
+  <a href="/dashboard/cursos/disciplinas" class="breadcrumb">Disciplinas</a>
+{% endblock %}
+
+{% block dashboardContent %}
+  <div class="preloader-wrapper big active" id="spinner">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="content">
+
+  </div>
+
+  <div id="templates">
+    <div id="templateSemestre">
+      <div class="collection with-header">
+        <div class="collection-header semestre">
+          <h5 class="nome">1° Semestre</h5>
+        </div>
+        <div class="disciplinas">
+        </div>
+      </div>
+    </div>
+
+    <div id="templateDisciplina">
+      <a href="#!" class="collection-item disciplina">IMD0012 - Introdução às Técnicas de Programação</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block dashboardScripts %}
+  <script src="{% static 'core/js/dashboard/disciplinas.js' %}"></script>
+{% endblock %}
