@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block dashboardStyle %}
-  
+
 {% endblock %}
 
 {% block breadcrumbs %}
   <a href="/dashboard/cursos" class="breadcrumb">Cursos</a>
-  <a href="/dashboard/cursos/disciplinas" class="breadcrumb">Disciplinas</a>
+  <a href="/dashboard/cursos/disciplinas?discente-id={{ discente_id }}&curso-id={{ curso_id }}" class="breadcrumb">Disciplinas</a>
 {% endblock %}
 
 {% block dashboardContent %}

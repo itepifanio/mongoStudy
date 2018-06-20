@@ -59,7 +59,10 @@ def getCursos(request):
 
 def disciplinas(request):
     user = sigaa_api.getUserInfo(request)
-    return render(request, 'core/dashboard/disciplinas.html', {'user': user})
+    discente_id = request.GET.get('discente-id', -1);
+    curso_id = request.GET.get('curso-id', -1);
+
+    return render(request, 'core/dashboard/disciplinas.html', {'user': user, 'discente_id': discente_id, 'curso_id': curso_id})
 
 def getDisciplinas(request):
     discente_id = request.GET.get('discente-id', -1);
@@ -85,4 +88,8 @@ def getDisciplinas(request):
 
 def estatisticas(request):
     user = sigaa_api.getUserInfo(request)
-    return render(request, 'core/dashboard/estatisticas.html', {'user': user})
+    discente_id = request.GET.get('discente-id', -1);
+    curso_id = request.GET.get('curso-id', -1);
+    disciplina_id = request.GET.get('disciplina-id', -1);
+
+    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'discente_id': discente_id, 'curso_id': curso_id, 'disciplina_id': disciplina_id})
