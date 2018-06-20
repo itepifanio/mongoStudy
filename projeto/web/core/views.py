@@ -78,11 +78,30 @@ def getDisciplinas(request):
     disciplinasCurso = sigaa_api.getDisciplinasCurso(request, matrizCurricular.id)
     matriculas = sigaa_api.getMatriculas(request, discente_id)
 
-    disciplinas  = [disciplina for disciplina in disciplinasCurso if not any( matricula.id_disciplina == disciplina.id for matricula in matriculas)]
+    disciplinas = []
+    for disciplina in disciplinasCurso:
+        jaCursouDisciplina = False
+        if hasattr(disciplina, 'componentes'):
+            componentes = []
+            for componente in disciplina.componentes:
+                if any( matricula.id_disciplina == componente.id for matricula in matriculas):
+                    jaCursouDisciplina = True
+                    break
+        else:
+            jaCursouDisciplina = any( matricula.id_disciplina == disciplina.id for matricula in matriculas)
+
+        if not jaCursouDisciplina:
+            disciplinas.append(disciplina)
 
     data = []
     for disciplina in disciplinas:
-        data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre})
+        if hasattr(disciplina, 'componentes'):
+            componentes = []
+            for componente in disciplina.componentes:
+                componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
+            data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre, 'componentes': componentes})
+        else:
+            data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre})
 
     return JsonResponse(data, safe=False)
 

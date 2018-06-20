@@ -169,3 +169,8 @@ class Disciplina:
             self.nome = data['nome']
             self.semestre = data['semestre-oferta']
             self.obrigatoria = data['disciplina-obrigatoria']
+            if "componentesBloco" in data:
+                componentes = []
+                for componente in data["componentesBloco"]:
+                    componentes.append(Disciplina(componente))
+                self.componentes = componentes
