@@ -32,7 +32,9 @@
                                     <td>{{ professor.professor }}</td>
                                     <td><a href="https://sigaa.ufrn.br/sigaa/public/docente/portal.jsf?siape={{ professor.siape}}" target="_blank">Portal da UFRN</a></td>
                                     <td>{{ professor.taxa }}%</td>
-                                    <td>Adicionar botões</td>
+                                    <td>
+                                        <a class="waves-effect waves-light btn-small" href="{% url 'detalhesProfessor' id_componente_curricular professor.siape %}">Detalhes</a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

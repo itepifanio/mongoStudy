@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block navbar %}
+<li><a href="/"> Home </a></li>
+<li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+{% endblock %}
+
+{% block content %}
+<div class="section">
+    <!--   Icon Section   -->
+    <div class="row">
+        <div class="col s12">
+            <div id="striped" class="section scrollspy">
+                <h5 class="header">Dados do professor  {{ professor.nome|title }}</h5>
+                <div class="row">
+                    <div class="col s6">
+                        <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script>
+$(document).ready(function(){
+    var options = {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+            renderTo: 'container'
+        },
+        title: {
+            text: 'Porcentagem de aprovação'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+
+        }]
+    }
+
+    var url =  "{% url 'jsonProfessor' id_componente_curricular siape %}";
+
+    $.getJSON(url, function(data) {
+        options.series[0].data = data;
+        var chart = new Highcharts.Chart(options);
+    });
+});
+</script>
+{% endblock %}

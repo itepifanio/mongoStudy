@@ -35,9 +35,17 @@ nav{
 }
 
 .highlights tr:first-child td{
-    background-color: #00802B;
+    background-color: #26a69a;
+}
+
+.highlights tr:first-child{
+    color: white;
 }
 
 .highlights tr:first-child a{
     color: white;
+}
+
+.highlights tr:first-child .btn-small{
+    background-color: #216869;
 }

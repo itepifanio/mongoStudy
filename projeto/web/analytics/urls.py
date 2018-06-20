@@ -1,6 +1,8 @@
 from django.urls import path
-from . import views
+from analytics import views
 
 urlpatterns = [
-    path("teste/<int:id_componente_curricular>", views.listaProfessores, name="teste")
+    path("listaProfessores/<int:id_componente_curricular>", views.listaProfessores, name="listaProfessores"),
+    path("jsonProfessor/<int:id_componente_curricular>/detalhe/<int:siape>", views.jsonProfessor, name="jsonProfessor"),
+    path("detalhesProfessor/<int:id_componente_curricular>/detalhe/<int:siape>", views.detalhesProfessor, name="detalhesProfessor")
 ]

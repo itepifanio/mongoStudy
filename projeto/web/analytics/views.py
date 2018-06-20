@@ -18,6 +18,7 @@ try:
 except:
     print("Problema na conexão")
 
+
 def listaProfessores(request, id_componente_curricular):
     """
     Recupera o json com os professores e suas turmas anteriores e filtra
@@ -33,12 +34,12 @@ def listaProfessores(request, id_componente_curricular):
     for professor in professores:
         aprovacao = 0
         total = 0
-        for i in professor['aprovacao']:
-            for k in i:
-                if k['_id'] == 'APROVADO' or k['_id'] == 'APROVADO POR NOTA':
-                    aprovacao += k['num_aprovacao']
-                if k['_id'] != 'INDEFERIDO' or k['_id'] != 'DESISTENCIA':
-                    total += k['num_aprovacao']
+        for turmas in professor['aprovacao']:
+            for tipoAprovacao in turmas:
+                if tipoAprovacao['_id'] == 'APROVADO' or tipoAprovacao['_id'] == 'APROVADO POR NOTA':
+                    aprovacao += tipoAprovacao['num_aprovacao']
+                if tipoAprovacao['_id'] != 'INDEFERIDO' or tipoAprovacao['_id'] != 'DESISTENCIA':
+                    total += tipoAprovacao['num_aprovacao']
         professores_filtrados.append(
             {
                 'professor':professor['_id']['professor'],
@@ -47,7 +48,10 @@ def listaProfessores(request, id_componente_curricular):
             }
         )
 
-    return render(request, 'listaTaxaAprovacao.html', {'professores':professores_filtrados})
+    return render(request, 'listaTaxaAprovacao.html', {
+        'professores':professores_filtrados,
+        'id_componente_curricular': id_componente_curricular
+    })
 
 
 def professorPorTurma(request, id_componente_curricular):
@@ -135,15 +139,43 @@ def professorPorTurma(request, id_componente_curricular):
 
     return db['docentes'].aggregate(pipeline)
 
-def jsonProfessores(request):
+
+def jsonProfessor(request, id_componente_curricular, siape):
+    # Siape exemplo do id_componente_curricular 55025:
+    # 2251108
     """
     Retorna o json da função professorPorTurma(request, id_componente_curricular)
+    filtrando o siape do professor pesquisado
     """
+    results = []
 
-    return HttpResponse(
-        json_util.dumps(
-            professorPorTurma(request, id_componente_curricular),
-            sort_keys=False, indent=4, default=json_util.default
-        ),
-        content_type="application/json"
-    )
+    for professor in professorPorTurma(request, id_componente_curricular):
+        if professor['_id']['siape'] == siape:
+            totalAprovacoes = sum(i['num_aprovacao'] for i in professor['aprovacao'][0])
+            for tipoAprovacao in professor['aprovacao'][0]:
+                # Acumula os valores para formatar highcharts
+                results.append({
+                    'name': tipoAprovacao['_id'],
+                    'y': round((tipoAprovacao['num_aprovacao']*100)/totalAprovacoes, 2)
+                })
+
+
+            return HttpResponse(
+                json_util.dumps(
+                    results,
+                    sort_keys=False, indent=4, default=json_util.default
+                ),
+                    content_type="application/json"
+                )
+    else:
+        return HttpResponse("Nenhum professor encontrado com esse siape")
+
+
+def detalhesProfessor(request, id_componente_curricular, siape):
+    professor = db['docentes'].find_one({'siape':siape})
+
+    return render(request, 'detalhesProfessor.html', {
+        'siape':siape,
+        'professor': professor,
+        'id_componente_curricular': id_componente_curricular
+    })
