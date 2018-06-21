@@ -34,7 +34,6 @@ def getUserInfo(request):
     return None
 
 def getUserVinculos(request):
-    logger = logging.getLogger(__name__)
     token = request.session.get('token')
     auth_headers = {
         'Authorization': 'bearer' + ' ' + token['access_token'],
@@ -66,7 +65,6 @@ def getDiscente(request, id):
     return None
 
 def getMatriculas(request, id_discente):
-    logger = logging.getLogger(__name__)
     token = request.session.get('token')
     auth_headers = {
         'Authorization': 'bearer' + ' ' + token['access_token'],
@@ -102,18 +100,20 @@ def getMatrizesCurricularesCurso(request, id_curso):
         return matrizes
     return None
 
-def getDisciplinasCurso(request, id_matriz_curricular):
+def getDisciplinasCurso(request, id_matriz_curricular, limit=100, offset=0):
+    logger = logging.getLogger(__name__)
     token = request.session.get('token')
     auth_headers = {
         'Authorization': 'bearer' + ' ' + token['access_token'],
         'x-api-key': settings.API_SIGAA['CREDENTIALS']['X_API_KEY']
     }
 
-    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares?id-matriz-curricular=" + str(id_matriz_curricular) + "&limit=100&offset=0"
+    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares?id-matriz-curricular=" + str(id_matriz_curricular) + "&limit=" + str(limit) + "&offset=" + str(offset)
     response = requests.get(url, headers=auth_headers)
     if response.status_code == requests.codes.ok:
         disciplinas = []
         for disciplina in response.json():
+            logger.error(disciplina['codigo'])
             disciplinas.append(Disciplina(disciplina))
         return disciplinas
     return None
@@ -159,7 +159,12 @@ class MatrizCurricular:
     def __init__(self, data = None):
         if data is not None:
             self.id = data['id-matriz-curricular']
+            self.ano = data['ano']
+            self.periodo = data['periodo']
+            self.curso = data['nome-curso']
+            self.turno = data['turno']
             self.ativa = data['ativo']
+            self.enfase = (data['enfase'] if data['enfase'] else None)
 
 class Disciplina:
     def __init__(self, data = None):

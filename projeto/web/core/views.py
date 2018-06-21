@@ -35,80 +35,63 @@ def authenticate(request):
 
 def dashboard(request):
     if services.is_logged(request) :
-        return HttpResponseRedirect('/dashboard/cursos')
+        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
 
     user = sigaa_api.getUserInfo(request)
     if user is not None:
         services.init_session(request, user)
-        return HttpResponseRedirect('/dashboard/cursos')
+        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
 
     return HttpResponseRedirect('/')
 
-def cursos(request):
-    return render(request, 'core/dashboard/cursos.html', {'user': services.get_user_session(request)})
-
-def getCursos(request):
+def getMatrizesCurriculares(request):
     vinculos = sigaa_api.getUserVinculos(request)
+    vinculoGraduacaoAtivo = None
+    for vinculo in vinculos:
+        if vinculo.ativo:
+            vinculoGraduacaoAtivo = vinculo
+            break
+
+    matrizesCurriculares = sigaa_api.getMatrizesCurricularesCurso(request, vinculoGraduacaoAtivo.id_curso)
 
     data = []
-    if vinculos is not None:
-        for vinculo in vinculos:
-            discente = sigaa_api.getDiscente(request, vinculo.id)
-            data.append({'id': vinculo.id_curso, 'nome': vinculo.nome_curso , 'matricula': vinculo.matricula, 'ingresso': discente.ingresso, 'discente': discente.id})
+    for matrizCurricular in matrizesCurriculares:
+        if matrizCurricular.ativa:
+            data.append({'id': matrizCurricular.id, 'curso': matrizCurricular.curso , 'turno': matrizCurricular.turno, 'ano': str(matrizCurricular.ano) + "." + str(matrizCurricular.periodo), 'enfase': matrizCurricular.enfase})
+
     return JsonResponse(data, safe=False)
 
 def disciplinas(request):
     user = sigaa_api.getUserInfo(request)
-    discente_id = request.GET.get('discente-id', -1);
-    curso_id = request.GET.get('curso-id', -1);
+    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
 
-    return render(request, 'core/dashboard/disciplinas.html', {'user': user, 'discente_id': discente_id, 'curso_id': curso_id})
+    return render(request, 'core/dashboard/disciplinas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular})
 
 def getDisciplinas(request):
-    discente_id = request.GET.get('discente-id', -1);
-    curso_id = request.GET.get('curso-id', -1);
-
-    matrizesCurriculares = sigaa_api.getMatrizesCurricularesCurso(request, curso_id)
-    matrizCurricular = None
-    for matriz in matrizesCurriculares:
-        if matriz.ativa:
-            matrizCurricular = matriz
-            break
-
-    disciplinasCurso = sigaa_api.getDisciplinasCurso(request, matrizCurricular.id)
-    matriculas = sigaa_api.getMatriculas(request, discente_id)
-
-    disciplinas = []
-    for disciplina in disciplinasCurso:
-        jaCursouDisciplina = False
-        if hasattr(disciplina, 'componentes'):
-            componentes = []
-            for componente in disciplina.componentes:
-                if any( matricula.id_disciplina == componente.id for matricula in matriculas):
-                    jaCursouDisciplina = True
-                    break
-        else:
-            jaCursouDisciplina = any( matricula.id_disciplina == disciplina.id for matricula in matriculas)
-
-        if not jaCursouDisciplina:
-            disciplinas.append(disciplina)
+    user = sigaa_api.getUserInfo(request)
+    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
 
     data = []
-    for disciplina in disciplinas:
-        if hasattr(disciplina, 'componentes'):
-            componentes = []
-            for componente in disciplina.componentes:
-                componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
-            data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre, 'componentes': componentes})
-        else:
-            data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre})
+    limit = 100
+    offset = 0
+    disciplinas = sigaa_api.getDisciplinasCurso(request, id_matriz_curricular, limit, offset)
+    while len(disciplinas) > 0:
+        for disciplina in disciplinas:
+            if hasattr(disciplina, 'componentes'):
+                componentes = []
+                for componente in disciplina.componentes:
+                    componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
+                data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre, 'componentes': componentes})
+            else:
+                data.append({'id': disciplina.id, 'codigo': disciplina.codigo, 'nome': disciplina.nome, 'semestre': disciplina.semestre})
+
+        offset = offset + limit
+        disciplinas = sigaa_api.getDisciplinasCurso(request, id_matriz_curricular, limit, offset)
 
     return JsonResponse(data, safe=False)
 
 def estatisticas(request):
     user = sigaa_api.getUserInfo(request)
-    discente_id = request.GET.get('discente-id', -1);
-    curso_id = request.GET.get('curso-id', -1);
-    disciplina_id = request.GET.get('disciplina-id', -1);
+    id_disciplina = request.GET.get('id-disciplina', -1);
 
-    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'discente_id': discente_id, 'curso_id': curso_id, 'disciplina_id': disciplina_id})
+    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'id_disciplina': id_disciplina})

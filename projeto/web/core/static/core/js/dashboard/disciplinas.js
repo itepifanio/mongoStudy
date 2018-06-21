@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
-  $.get( "/dashboard/cursos/disciplinas/get" + window.location.search, function(disciplinas) {
+  $.get( "/dashboard/getDisciplinas" + window.location.search, function(disciplinas) {
     $cotent = $("#content");
     if (disciplinas.length === 0) {
 
@@ -25,7 +25,7 @@ $(document).ready(function(){
           semestre.forEach(function(disciplina, i, a){
             $templateDisciplina = $("#templateDisciplina").clone();
             $templateDisciplina.find(".disciplina").text(disciplina.codigo + " - " + disciplina.nome);
-            $templateDisciplina.find(".disciplina").attr("href", "/dashboard/cursos/disciplinas/estatisticas" +  window.location.search + "&disciplina-id=" + disciplina.id);
+            $templateDisciplina.find(".disciplina").attr("href", "/dashboard/estatisticas" +  window.location.search + "&id-disciplina=" + disciplina.id);
             $templateSemestre.find(".disciplinas").append($templateDisciplina.html());
           })
 

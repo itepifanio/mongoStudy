@@ -13,10 +13,10 @@
   display: none;
 }
 
-.curso {
+.matrizCurricular {
   color: black;
 }
 
-.label-matricula, .label-ingresso {
-  font-weight: bold;
+.curso, .label-enfase, .label-turno, .label-ano {
+  font-weight: bold !important;
 }
