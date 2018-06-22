@@ -3,6 +3,7 @@
 
 {% block dashboardStyle %}
   <link href="{% static 'core/css/dashboard/disciplinas.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'vendor/animatecss/animate.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -56,7 +57,7 @@
 
     <div id="templates">
       <div id="templateSemestre">
-        <div class="collection with-header z-depth-1">
+        <div class="collection with-header z-depth-1 semestre-wrapper">
           <div class="collection-header semestre">
             <h5 class="nome">1° Semestre</h5>
           </div>

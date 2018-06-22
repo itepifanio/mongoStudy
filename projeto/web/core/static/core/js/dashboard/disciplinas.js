@@ -6,34 +6,36 @@ $(document).ready(function(){
 
     }
     else {
-      var semestres = []
-      disciplinas.forEach(function(element, index, array) {
-        if(semestres[element.semestre]) {
-          semestres[element.semestre].push(element);
-        }
-        else {
-          semestres[element.semestre] = [];
-          semestres[element.semestre].push(element);
-        }
-      });
-
-      semestres.forEach(function(semestre, index, array){
-        if (index > 0) {
-          var $templateSemestre = $("#templateSemestre").clone();
-          $templateSemestre.find(".nome").text(index + "° Semestre");
-          semestre.forEach(function(disciplina, i, a){
-            $templateDisciplina = $("#templateDisciplina").clone();
-            $templateDisciplina.find(".disciplina").text(disciplina.codigo + " - " + disciplina.nome);
-            $templateDisciplina.find(".disciplina").attr("href", "/dashboard/estatisticas" +  window.location.search + "&id-disciplina=" + disciplina.id);
-            $templateSemestre.find(".disciplinas").append($templateDisciplina.html());
+      $("#obrigatorias .spinner").fadeOut(0, function(){
+        $("#obrigatorias .content").fadeIn(400, function() {
+          var semestres = []
+          disciplinas.forEach(function(element, index, array) {
+            if(semestres[element.semestre]) {
+              semestres[element.semestre].push(element);
+            }
+            else {
+              semestres[element.semestre] = [];
+              semestres[element.semestre].push(element);
+            }
           });
 
-          $("#obrigatorias .content").append($templateSemestre.html());
-        }
-      });
+          semestres.forEach(function(semestre, index, array){
+            if (index > 0) {
+              var $templateSemestre = $("#templateSemestre").clone();
+              $templateSemestre.find(".nome").text(index + "° Semestre");
+              semestre.forEach(function(disciplina, i, a){
+                $templateDisciplina = $("#templateDisciplina").clone();
+                $templateDisciplina.find(".disciplina").text(disciplina.codigo + " - " + disciplina.nome);
+                $templateDisciplina.find(".disciplina").attr("href", "/dashboard/estatisticas" +  window.location.search + "&id-disciplina=" + disciplina.id);
+                $templateSemestre.find(".disciplinas").append($templateDisciplina.html());
+              });
 
-      $("#obrigatorias .spinner").fadeOut(0, function(){
-        $("#obrigatorias .content").fadeIn(400);
+              $templateSemestre.find(".semestre-wrapper").addClass('animated slideInUp');
+
+              setTimeout(function(){$("#obrigatorias .content").append($templateSemestre.html());}, 500 * index);
+            }
+          });
+        });
       });
     }
   });
