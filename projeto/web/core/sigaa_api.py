@@ -100,7 +100,7 @@ def getMatrizesCurricularesCurso(request, id_curso):
         return matrizes
     return None
 
-def getDisciplinasCurso(request, id_matriz_curricular, limit=100, offset=0):
+def getDisciplinasCurso(request, id_matriz_curricular, obrigatoria = True,limit=100, offset=0):
     logger = logging.getLogger(__name__)
     token = request.session.get('token')
     auth_headers = {
@@ -108,7 +108,7 @@ def getDisciplinasCurso(request, id_matriz_curricular, limit=100, offset=0):
         'x-api-key': settings.API_SIGAA['CREDENTIALS']['X_API_KEY']
     }
 
-    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares?id-matriz-curricular=" + str(id_matriz_curricular) + "&limit=" + str(limit) + "&offset=" + str(offset)
+    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares?id-matriz-curricular=" + str(id_matriz_curricular) + "&disciplina-obrigatoria=" + str(obrigatoria) + "&limit=" + str(limit) + "&offset=" + str(offset)
     response = requests.get(url, headers=auth_headers)
     if response.status_code == requests.codes.ok:
         disciplinas = []

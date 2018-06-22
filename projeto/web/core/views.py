@@ -70,12 +70,15 @@ def disciplinas(request):
 def getDisciplinas(request):
     user = sigaa_api.getUserInfo(request)
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
+    tipo = request.GET.get('tipo', "obrigatorias");
+
+    obrigatoria = (tipo == "obrigatorias")
 
     data = []
     limit = 100
     offset = 0
-    disciplinas = sigaa_api.getDisciplinasCurso(request, id_matriz_curricular, limit, offset)
-    while len(disciplinas) > 0:
+    disciplinas = sigaa_api.getDisciplinasCurso(request, id_matriz_curricular, obrigatoria, limit, offset)
+    while disciplinas is not None and len(disciplinas) > 0:
         for disciplina in disciplinas:
             if hasattr(disciplina, 'componentes'):
                 componentes = []
