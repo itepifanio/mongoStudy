@@ -1,0 +1,41 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block style %}
+  <link href="{% static 'core/css/dashboard/base.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  {% block dashboardStyle %} {% endblock %}
+{% endblock %}
+
+{% block navbar %}
+  <li><a href="/"> Home </a></li>
+  <li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+{% endblock %}
+
+{% block navbar-mobile %}
+  <li><a href="/"> Home </a></li>
+  <li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+{% endblock %}
+
+{% block content %}
+  <nav id="breadcrumbs">
+      <div class="nav-wrapper">
+        <div class="row">
+          <div class="col s12">
+            {% block breadcrumbs %}
+              <a href="#!" class="breadcrumb">Cursos</a>
+              <a href="#!" class="breadcrumb">Disciplinas</a>
+              <a href="#!" class="breadcrumb">Estatisticas</a>
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+  </nav>
+
+  <div class="section">
+    {% block dashboardContent %} {% endblock %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {% block dashboardScripts %} {% endblock %}
+{% endblock %}

@@ -126,6 +126,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# LOG
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+
+# API SIGAA
 BASE_URL ='http://localhost:8000'
 
 API_SIGAA_BASE_URL = 'https://api.info.ufrn.br'
@@ -136,6 +155,10 @@ API_SIGAA = {
     'REDIRECT_URI': BASE_URL + "/authenticate",
     'CREDENTIALS': local_settings.API_SIGAA_CREDENTIALS,
     'ENDPOINTS': {
-        'USUARIO': API_SIGAA_BASE_URL + '/usuario/v0.1/usuarios'
+        'USUARIO': API_SIGAA_BASE_URL + '/usuario/v0.1/usuarios',
+        'VINCULO': API_SIGAA_BASE_URL + '/vinculo/v0.1/vinculos',
+        'DISCENTE': API_SIGAA_BASE_URL + '/discente/v0.1/discentes',
+        'CURSO': API_SIGAA_BASE_URL + '/curso/v0.1',
+        'MATRICULA': API_SIGAA_BASE_URL + '/matricula/v0.1/matriculas-componentes'
     }
 }

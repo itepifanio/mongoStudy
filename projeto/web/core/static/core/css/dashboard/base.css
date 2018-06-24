@@ -1,0 +1,19 @@
+#breadcrumbs {
+  margin-top: 10px;
+}
+
+.preloader-wrapper {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+
+#content {
+  display: none;
+  min-height: 500px;
+}
+
+#templates {
+  display: none;
+}

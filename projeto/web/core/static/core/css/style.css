@@ -49,3 +49,7 @@ nav{
 .highlights tr:first-child .btn-small{
     background-color: #216869;
 }
+
+#main {
+  min-height: 500px;
+}
