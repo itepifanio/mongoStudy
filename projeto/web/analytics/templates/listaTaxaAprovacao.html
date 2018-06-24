@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block stylesheets %}
+<link href="{% static 'core/css/datatables.min.css' %}" type="text/css" rel="stylesheet" /> {% endblock %} {% block navbar %}
+<li><a href="/"> Home </a></li>
+<li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+{% endblock %}
+
+{% block content %}
+<div class="section">
+    <!--   Icon Section   -->
+    <div class="row">
+        <div class="col s12">
+            <div id="striped" class="section scrollspy">
+                <h3 class="header">Taxa de aprovação por professor</h3>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="striped highlights" style="width:100%" id="datatable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Página do servidor</th>
+                                    <th>Taxa de aprovação</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for professor in professores %}
+                                <tr>
+                                    <td>{{ professor.professor }}</td>
+                                    <td><a href="https://sigaa.ufrn.br/sigaa/public/docente/portal.jsf?siape={{ professor.siape}}" target="_blank">Portal da UFRN</a></td>
+                                    <td>{{ professor.taxa }}%</td>
+                                    <td>
+                                        <a class="waves-effect waves-light btn-small" href="{% url 'detalhesProfessor' id_componente_curricular professor.siape %}">Detalhes</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'core/js/datatables.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+    $('#datatable').DataTable({
+        "dom":' <"search"f><"top">rt<"bottom"ip><"clear">',
+        "order": [[ 2, "desc" ]],
+        columnDefs: [
+            {
+                targets: [ 0, 1, 2 ],
+                className: 'mdl-data-table__cell--non-numeric',
+            }
+        ]
+    } );
+    $('.dataTables_filter input[type="search"]').css({ 'width': '300px', 'display': 'inline-block' });
+} );
+</script>
+{% endblock %}

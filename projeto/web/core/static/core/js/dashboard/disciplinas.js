@@ -26,7 +26,7 @@ $(document).ready(function(){
               semestre.forEach(function(disciplina, i, a){
                 $templateDisciplina = $("#templateDisciplina").clone();
                 $templateDisciplina.find(".disciplina").text(disciplina.codigo + " - " + disciplina.nome);
-                $templateDisciplina.find(".disciplina").attr("href", "/dashboard/estatisticas" +  window.location.search + "&id-disciplina=" + disciplina.id);
+                $templateDisciplina.find(".disciplina").attr("href", "listaProfessores/" + disciplina.id);
                 $templateSemestre.find(".disciplinas").append($templateDisciplina.html());
               });
 
