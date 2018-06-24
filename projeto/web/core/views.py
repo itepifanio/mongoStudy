@@ -95,6 +95,7 @@ def getDisciplinas(request):
 
 def estatisticas(request):
     user = sigaa_api.getUserInfo(request)
+    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
     id_disciplina = request.GET.get('id-disciplina', -1);
 
-    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'id_disciplina': id_disciplina})
+    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular, 'id_disciplina': id_disciplina})

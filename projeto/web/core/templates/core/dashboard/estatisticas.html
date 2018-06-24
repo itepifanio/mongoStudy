@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <a href="/dashboard/cursos" class="breadcrumb">Cursos</a>
-  <a href="/dashboard/cursos/disciplinas?discente-id={{ discente_id }}&curso-id={{ curso_id }}" class="breadcrumb">Disciplinas</a>
-  <a href="/dashboard/cursos/disciplinas/estatisticas?discente-id={{ discente_id }}&curso-id={{ curso_id }}&disciplina-id={{ disciplina_id }}" class="breadcrumb">Estatisticas</a>
+  <a href="/dashboard" class="breadcrumb">Matrizes Curriculares</a>
+  <a href="/dashboard/disciplinas?id-matriz-curricular={{ id_matriz_curricular }}" class="breadcrumb">Disciplinas</a>
+  <a href="/dashboard/estatisticas?id-matriz-curricular={{ id_matriz_curricular }}&id-disciplina={{ id_disciplina }}" class="breadcrumb">Estatísticas</a>
 {% endblock %}
 
 {% block dashboardContent %}
