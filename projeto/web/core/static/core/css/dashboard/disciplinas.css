@@ -1,0 +1,20 @@
+.tabs .tab a {
+  font-weight: bold;
+  font-size: 17px;
+  color: #000000 !important;
+}
+.tabs .indicator {
+  background-color: #009688;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+  background-color: transparent !important;
+}
+
+.content {
+  display: none;
+}
+
+#optativas .spinner {
+  display: none;
+}

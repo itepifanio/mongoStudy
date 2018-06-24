@@ -1,0 +1,78 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block dashboardStyle %}
+  <link href="{% static 'core/css/dashboard/disciplinas.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'vendor/animatecss/animate.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block breadcrumbs %}
+  <a href="/dashboard" class="breadcrumb">Matrizes Curriculares</a>
+  <a href="/dashboard/disciplinas?id-matriz-curricular={{ id_matriz_curricular }}" class="breadcrumb">Disciplinas</a>
+{% endblock %}
+
+{% block dashboardContent %}
+  <div class="row" style="min-height: 500px;">
+
+    <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+      <li class="tab" data-tipo="obrigatorias">
+        <a href="#obrigatorias" class="active">Obrigatórias</a>
+      </li>
+      <li class="tab" data-tipo="optativas">
+        <a href="#optativas">Optativas</a>
+      </li>
+    </ul>
+
+    <div id="obrigatorias">
+      <div class="preloader-wrapper big active spinner">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content"></div>
+    </div>
+
+    <div id="optativas">
+      <div class="preloader-wrapper big active spinner">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content collection z-depth-1"></div>
+    </div>
+
+    <div id="templates">
+      <div id="templateSemestre">
+        <div class="collection with-header z-depth-1 semestre-wrapper">
+          <div class="collection-header semestre">
+            <h5 class="nome">1° Semestre</h5>
+          </div>
+          <div class="disciplinas">
+          </div>
+        </div>
+      </div>
+
+      <div id="templateDisciplina">
+        <a href="#!" class="collection-item disciplina">IMD0012 - Introdução às Técnicas de Programação</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block dashboardScripts %}
+  <script src="{% static 'core/js/dashboard/disciplinas.js' %}"></script>
+{% endblock %}

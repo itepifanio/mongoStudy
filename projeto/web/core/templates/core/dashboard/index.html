@@ -1,0 +1,48 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block dashboardStyle %}
+  <link href="{% static 'core/css/dashboard/index.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'vendor/animatecss/animate.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+{% endblock %}
+
+{% block breadcrumbs %}
+  <a href="/dashboard" class="breadcrumb">Matrizes Curriculares</a>
+{% endblock %}
+
+{% block dashboardContent %}
+  <div class="preloader-wrapper big active" id="spinner">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="content">
+
+  </div>
+
+  <div id="templates">
+    <div id="templateMatrizCurricular">
+      <a class="col s12 m6 matrizCurricular">
+        <div class="card hoverable" style="cursor: pointer;">
+          <div class="card-content">
+            <span class="card-title curso">Tecnologia da Informação</span>
+            <p class="enfase"> <span class="label-enfase">Enfase: </span> <span class="value-enfase">Engeharia de Software</span> </p>
+            <p class="turno"> <span class="label-turno">Turno: </span> <span class="value-turno">MT</span> </p>
+            <p class="ano"> <span class="label-ano">Ano: </span> <span class="value-ano">2012.1</span> </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block dashboardScripts %}
+  <script src="{% static 'core/js/dashboard/index.js' %}"></script>
+{% endblock %}
