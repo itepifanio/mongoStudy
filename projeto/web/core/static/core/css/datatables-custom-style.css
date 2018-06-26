@@ -1,0 +1,23 @@
+#datatable_wrapper .dataTables_length {
+  display: inline-block;
+}
+
+#datatable_wrapper .dataTables_length select {
+  width: inherit;
+  height: inherit;
+  display: inherit;
+}
+
+#datatable_wrapper .dataTables_filter {
+  display: inline-block;
+  float: right;
+}
+
+#datatable_wrapper .dataTables_filter input {
+  width: inherit;
+  height: inherit;
+}
+
+.dataTables_empty {
+  text-align: center;
+}
