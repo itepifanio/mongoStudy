@@ -35,12 +35,12 @@ def authenticate(request):
 
 def dashboard(request):
     if services.is_logged(request) :
-        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
+        return render(request, 'core/matrizes_curriculares.html', {'user': services.get_user_session(request)})
 
     user = sigaa_api.getUserInfo(request)
     if user is not None:
         services.init_session(request, user)
-        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
+        return render(request, 'core/matrizes_curriculares.html', {'user': services.get_user_session(request)})
 
     return HttpResponseRedirect('/')
 
@@ -65,7 +65,7 @@ def disciplinas(request):
     user = sigaa_api.getUserInfo(request)
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
 
-    return render(request, 'core/dashboard/disciplinas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular})
+    return render(request, 'core/disciplinas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular})
 
 def getDisciplinas(request):
     user = sigaa_api.getUserInfo(request)
@@ -98,4 +98,4 @@ def estatisticas(request):
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
     id_disciplina = request.GET.get('id-disciplina', -1);
 
-    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular, 'id_disciplina': id_disciplina})
+    return render(request, 'core/estatisticas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular, 'id_disciplina': id_disciplina})
