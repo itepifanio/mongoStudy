@@ -1,6 +1,13 @@
+$cotent = $("#content");
+
+function addMatrizCurricular($template, i) {
+  setTimeout(function(){
+    $cotent.append($template.html());
+  }, 500 * i);
+}
+
 $(document).ready(function(){
   $.get( "/dashboard/getMatrizesCurriculares", function( matrizesCurriculares ) {
-    $cotent = $("#content");
     if (matrizesCurriculares.length === 0) {
 
     }
@@ -22,7 +29,7 @@ $(document).ready(function(){
             $template.find(".matrizCurricular").attr("href", "/dashboard/disciplinas?id-matriz-curricular=" + matrizesCurriculares[i].id)
             $template.find(".matrizCurricular").addClass('animated slideInUp');
 
-            setTimeout(function(){$cotent.append($template.html());}, 500 * i);
+            addMatrizCurricular($template, i);
           }
         });
       });
