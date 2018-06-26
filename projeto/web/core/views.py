@@ -29,11 +29,11 @@ def authenticate(request):
     if code is not None:
         successfullyStarted = sigaa_api.init(request, code)
         if successfullyStarted:
-            return HttpResponseRedirect('dashboard')
+            return HttpResponseRedirect('dashboard/matrizesCurriculares')
 
     return HttpResponseRedirect('/')
 
-def dashboard(request):
+def matrizesCurriculares(request):
     if services.is_logged(request) :
         return render(request, 'core/matrizes_curriculares.html', {'user': services.get_user_session(request)})
 

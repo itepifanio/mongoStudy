@@ -4,7 +4,7 @@
 {% block navbar %}
   {% if request.session.user %}
     <li><a href="/"> Home </a></li>
-    <li><a href="{% url 'dashboard' %}"> Dashboard </a></li>
+    <li><a href="{% url 'dashboard/matrizesCurriculares' %}"> Dashboard </a></li>
   {% else %}
     <li><a href="{% url 'login' %}">Login</a></li>
   {% endif %}
