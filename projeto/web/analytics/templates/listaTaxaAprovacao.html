@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block dashboardStyle %}
+  <link href="{% static 'core/css/dashboard/taxa.css' %}" type="text/css" rel="stylesheet" />
   <link href="{% static 'core/css/datatables.min.css' %}" type="text/css" rel="stylesheet" />
   <link href="{% static 'core/css/datatables-custom-style.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
@@ -15,42 +16,53 @@
 
 {% block dashboardContent %}
   <div class="section">
-      <!--   Icon Section   -->
-      <div class="row z-depth-1">
-          <div class="col s12">
-              <div id="striped" class="section scrollspy">
-                  <h6 class="header z-depth-1" style="margin-top: 10px; margin-bottom: 25px; display: inline-block; padding: 15px;">
-                    <span style="font-weight: bold;">Disciplina:</span> <span>IMD0017 - PRÁTICAS DE LEITURA E ESCRITA EM PORTUGUÊS I</span>
-                  </h6>
-                  <div class="row">
-                      <div class="col s12">
-                          <table class="highlight" style="width:100%" id="datatable">
-                              <thead>
-                                  <tr>
-                                      <th>Nome</th>
-                                      <th>Página do servidor</th>
-                                      <th>Taxa de aprovação</th>
-                                      <th>Opções</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  {% for professor in professores %}
-                                    <tr>
-                                        <td>{{ professor.professor }}</td>
-                                        <td><a href="https://sigaa.ufrn.br/sigaa/public/docente/portal.jsf?siape={{ professor.siape}}" target="_blank">Portal da UFRN</a></td>
-                                        <td>{{ professor.taxa }}%</td>
-                                        <td>
-                                            <a class="waves-effect waves-light btn-small" href="{% url 'detalhesProfessor' %}?id-matriz-curricular={{ id_matriz_curricular }}&id-componente-curricular={{ id_componente_curricular }}&siape={{ professor.siape }}">Detalhes</a>
-                                        </td>
-                                    </tr>
-                                  {% endfor %}
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-          </div>
+    <div class="preloader-wrapper big active spinner">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
       </div>
+    </div>
+
+    <div class="row z-depth-1 main">
+        <div class="col s12">
+            <div id="striped" class="section scrollspy">
+                <h6 class="header z-depth-1" style="margin-top: 10px; margin-bottom: 25px; display: inline-block; padding: 15px;">
+                  <span style="font-weight: bold;">Disciplina:</span> <span id="disciplina">IMD0017 - PRÁTICAS DE LEITURA E ESCRITA EM PORTUGUÊS I</span>
+                </h6>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight" style="width:100%" id="datatable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Página do servidor</th>
+                                    <th>Taxa de aprovação</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for professor in professores %}
+                                  <tr>
+                                      <td>{{ professor.professor }}</td>
+                                      <td><a href="https://sigaa.ufrn.br/sigaa/public/docente/portal.jsf?siape={{ professor.siape}}" target="_blank">Portal da UFRN</a></td>
+                                      <td>{{ professor.taxa }}%</td>
+                                      <td>
+                                          <a class="waves-effect waves-light btn-small" href="{% url 'detalhesProfessor' %}?id-matriz-curricular={{ id_matriz_curricular }}&id-componente-curricular={{ id_componente_curricular }}&siape={{ professor.siape }}">Detalhes</a>
+                                      </td>
+                                  </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 {% endblock %}
 
@@ -58,6 +70,9 @@
   <script type="text/javascript" src="{% static 'core/js/datatables.min.js' %}"></script>
   <script>
     $(document).ready(function() {
+      $.get("/dashboard/getDisciplina?id-componente-curricular={{ id_componente_curricular }}", function( data ) {
+        $("#disciplina").text(data.codigo + " - " + data.nome);
+
         $('#datatable').DataTable({
           "paging": false,
           "oLanguage": {
@@ -77,6 +92,11 @@
             }
           }
         });
-    } );
+
+        $(".spinner").fadeOut(0, function(){
+          $(".main").fadeIn(400);
+        });
+      });
+    });
   </script>
 {% endblock %}

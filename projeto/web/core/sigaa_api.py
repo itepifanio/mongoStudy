@@ -114,6 +114,19 @@ def getDisciplinasCurso(request, id_matriz_curricular, obrigatoria = True,limit=
         return disciplinas
     return None
 
+def getDisciplina(request, id_componente_curricular):
+    token = request.session.get('token')
+    auth_headers = {
+        'Authorization': 'bearer' + ' ' + token['access_token'],
+        'x-api-key': settings.API_SIGAA['CREDENTIALS']['X_API_KEY']
+    }
+
+    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares/" + str(id_componente_curricular)
+    response = requests.get(url, headers=auth_headers)
+    if response.status_code == requests.codes.ok:
+        return Disciplina(response.json())
+    return None
+
 class User:
     def __init__(self, data = None):
         if data is not None:

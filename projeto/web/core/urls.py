@@ -9,5 +9,6 @@ urlpatterns = [
     path("dashboard/getMatrizesCurriculares", views.getMatrizesCurriculares, name="getMatrizesCurriculares"),
     path("dashboard/disciplinas", views.disciplinas, name="disciplinas"),
     path("dashboard/getDisciplinas", views.getDisciplinas, name="getDisciplinas"),
+    path("dashboard/getDisciplina", views.getDisciplina, name="getDisciplina"),
     path("dashboard/estatisticas", views.estatisticas, name="estatisticas")
 ]
