@@ -93,6 +93,24 @@ def getDisciplinas(request):
 
     return JsonResponse(data, safe=False)
 
+def getDisciplina(request):
+    id_componente_curricular = request.GET.get('id-componente-curricular', -1);
+
+    disciplina = sigaa_api.getDisciplina(request, id_componente_curricular)
+    data = {}
+    if disciplina is not None:
+        data['id'] = disciplina.id
+        data['codigo'] = disciplina.codigo
+        data['nome'] = disciplina.nome
+        data['semestre'] = disciplina.semestre
+        if hasattr(disciplina, 'componentes'):
+            componentes = []
+            for componente in disciplina.componentes:
+                componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
+            data['componentes'] = disciplina.componentes
+
+    return JsonResponse(data, safe=False)
+
 def estatisticas(request):
     user = sigaa_api.getUserInfo(request)
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);

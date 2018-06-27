@@ -31,33 +31,25 @@ def listaProfessores(request):
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1)
     id_componente_curricular = request.GET.get('id-componente-curricular', -1)
 
-    # professores = professorPorTurma(request, id_componente_curricular)
-    # professores_filtrados = []
+    professores = professorPorTurma(request, id_componente_curricular)
+    professores_filtrados = []
 
-    # for professor in professores:
-    #     aprovacao = 0
-    #     total = 0
-    #     for turmas in professor['aprovacao']:
-    #         for tipoAprovacao in turmas:
-    #             if tipoAprovacao['_id'] == 'APROVADO' or tipoAprovacao['_id'] == 'APROVADO POR NOTA':
-    #                 aprovacao += tipoAprovacao['num_aprovacao']
-    #             if tipoAprovacao['_id'] != 'INDEFERIDO' or tipoAprovacao['_id'] != 'DESISTENCIA':
-    #                 total += tipoAprovacao['num_aprovacao']
-    #     professores_filtrados.append(
-    #         {
-    #             'professor':professor['_id']['professor'],
-    #             'siape':professor['_id']['siape'],
-    #             'taxa': round((aprovacao*100)/total, 2)
-    #         }
-    #     )
-
-    professores_filtrados = [
-        {'professor': "Chhibanca", "taxa": 20, "siape": 21313},
-        {'professor': "Tirulipa", "taxa": 76, "siape": 214189},
-        {'professor': "Cardume", "taxa": 99, "siape": 2112389},
-        {'professor': "Cardume", "taxa": 99, "siape": 2112389},
-        {'professor': "Cardume", "taxa": 99, "siape": 2112389}
-    ]
+    for professor in professores:
+        aprovacao = 0
+        total = 0
+        for turmas in professor['aprovacao']:
+            for tipoAprovacao in turmas:
+                if tipoAprovacao['_id'] == 'APROVADO' or tipoAprovacao['_id'] == 'APROVADO POR NOTA':
+                    aprovacao += tipoAprovacao['num_aprovacao']
+                if tipoAprovacao['_id'] != 'INDEFERIDO' or tipoAprovacao['_id'] != 'DESISTENCIA':
+                    total += tipoAprovacao['num_aprovacao']
+        professores_filtrados.append(
+            {
+                'professor':professor['_id']['professor'],
+                'siape':professor['_id']['siape'],
+                'taxa': round((aprovacao*100)/total, 2)
+            }
+        )
 
     return render(request, 'listaTaxaAprovacao.html', {
         'professores':professores_filtrados,
@@ -159,45 +151,28 @@ def jsonProfessor(request, id_componente_curricular, siape):
     Retorna o json da função professorPorTurma(request, id_componente_curricular)
     filtrando o siape do professor pesquisado
     """
-    results = [
-        {"name": "Ricardo", "y": 50},
-        {"name": "Emanuel", "y": 30},
-        {"name": "Richadirson", "y": 40},
-        {"name": "Abuperabe", "y": 90},
-        {"name": "Louco", "y": 60},
-        {"name": "Chiquita", "y": 10}
-    ]
+    results = []
 
-    return HttpResponse(
-        json_util.dumps(
-            results,
-            sort_keys=False, indent=4, default=json_util.default
-        ),
-            content_type="application/json"
-        )
+    for professor in professorPorTurma(request, id_componente_curricular):
+        if professor['_id']['siape'] == siape:
+            totalAprovacoes = sum(i['num_aprovacao'] for i in professor['aprovacao'][0])
+            for tipoAprovacao in professor['aprovacao'][0]:
+                # Acumula os valores para formatar highcharts
+                results.append({
+                    'name': tipoAprovacao['_id'],
+                    'y': round((tipoAprovacao['num_aprovacao']*100)/totalAprovacoes, 2)
+                })
 
-    # results = []
-    #
-    # for professor in professorPorTurma(request, id_componente_curricular):
-    #     if professor['_id']['siape'] == siape:
-    #         totalAprovacoes = sum(i['num_aprovacao'] for i in professor['aprovacao'][0])
-    #         for tipoAprovacao in professor['aprovacao'][0]:
-    #             # Acumula os valores para formatar highcharts
-    #             results.append({
-    #                 'name': tipoAprovacao['_id'],
-    #                 'y': round((tipoAprovacao['num_aprovacao']*100)/totalAprovacoes, 2)
-    #             })
-    #
-    #
-    #         return HttpResponse(
-    #             json_util.dumps(
-    #                 results,
-    #                 sort_keys=False, indent=4, default=json_util.default
-    #             ),
-    #                 content_type="application/json"
-    #             )
-    # else:
-    #     return HttpResponse("Nenhum professor encontrado com esse siape")
+
+            return HttpResponse(
+                json_util.dumps(
+                    results,
+                    sort_keys=False, indent=4, default=json_util.default
+                ),
+                    content_type="application/json"
+                )
+    else:
+        return HttpResponse("Nenhum professor encontrado com esse siape")
 
 
 def detalhesProfessor(request):
@@ -205,9 +180,7 @@ def detalhesProfessor(request):
     id_componente_curricular = request.GET.get('id-componente-curricular', -1)
     siape = request.GET.get('siape', -1)
 
-    # professor = db['docentes'].find_one({'siape':siape})
-
-    professor = {'nome': "Maluco", 'professor': "Cardume", "taxa": 99, "siape": 2112389}
+    professor = db['docentes'].find_one({'siape':siape})
 
     return render(request, 'detalhesProfessor.html', {
         'siape':siape,
