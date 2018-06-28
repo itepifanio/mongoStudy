@@ -19,7 +19,7 @@ except:
     print("Problema na conexão")
 
 
-def listaProfessores(request, id_componente_curricular):
+def listaProfessores(request):
     """
     Recupera o json com os professores e suas turmas anteriores e filtra
     eles para retornar apenas a taxa de aprovação, o nome do professor e
@@ -27,8 +27,11 @@ def listaProfessores(request, id_componente_curricular):
     indefiridos ou desistentes (Mas leva em conta os alunos que trancaram a
     disciplina)
     """
-    professores = professorPorTurma(request, id_componente_curricular)
 
+    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1)
+    id_componente_curricular = request.GET.get('id-componente-curricular', -1)
+
+    professores = professorPorTurma(request, id_componente_curricular)
     professores_filtrados = []
 
     for professor in professores:
@@ -50,7 +53,8 @@ def listaProfessores(request, id_componente_curricular):
 
     return render(request, 'listaTaxaAprovacao.html', {
         'professores':professores_filtrados,
-        'id_componente_curricular': id_componente_curricular
+        'id_componente_curricular': id_componente_curricular,
+        'id_matriz_curricular': id_matriz_curricular
     })
 
 
@@ -171,11 +175,16 @@ def jsonProfessor(request, id_componente_curricular, siape):
         return HttpResponse("Nenhum professor encontrado com esse siape")
 
 
-def detalhesProfessor(request, id_componente_curricular, siape):
+def detalhesProfessor(request):
+    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1)
+    id_componente_curricular = request.GET.get('id-componente-curricular', -1)
+    siape = request.GET.get('siape', -1)
+
     professor = db['docentes'].find_one({'siape':siape})
 
     return render(request, 'detalhesProfessor.html', {
         'siape':siape,
         'professor': professor,
+        'id_matriz_curricular': id_matriz_curricular,
         'id_componente_curricular': id_componente_curricular
     })

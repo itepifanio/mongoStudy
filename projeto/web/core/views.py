@@ -29,18 +29,18 @@ def authenticate(request):
     if code is not None:
         successfullyStarted = sigaa_api.init(request, code)
         if successfullyStarted:
-            return HttpResponseRedirect('dashboard')
+            return HttpResponseRedirect('dashboard/matrizesCurriculares')
 
     return HttpResponseRedirect('/')
 
-def dashboard(request):
+def matrizesCurriculares(request):
     if services.is_logged(request) :
-        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
+        return render(request, 'core/matrizes_curriculares.html', {'user': services.get_user_session(request)})
 
     user = sigaa_api.getUserInfo(request)
     if user is not None:
         services.init_session(request, user)
-        return render(request, 'core/dashboard/index.html', {'user': services.get_user_session(request)})
+        return render(request, 'core/matrizes_curriculares.html', {'user': services.get_user_session(request)})
 
     return HttpResponseRedirect('/')
 
@@ -65,7 +65,7 @@ def disciplinas(request):
     user = sigaa_api.getUserInfo(request)
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
 
-    return render(request, 'core/dashboard/disciplinas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular})
+    return render(request, 'core/disciplinas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular})
 
 def getDisciplinas(request):
     user = sigaa_api.getUserInfo(request)
@@ -93,9 +93,27 @@ def getDisciplinas(request):
 
     return JsonResponse(data, safe=False)
 
+def getDisciplina(request):
+    id_componente_curricular = request.GET.get('id-componente-curricular', -1);
+
+    disciplina = sigaa_api.getDisciplina(request, id_componente_curricular)
+    data = {}
+    if disciplina is not None:
+        data['id'] = disciplina.id
+        data['codigo'] = disciplina.codigo
+        data['nome'] = disciplina.nome
+        data['semestre'] = disciplina.semestre
+        if hasattr(disciplina, 'componentes'):
+            componentes = []
+            for componente in disciplina.componentes:
+                componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
+            data['componentes'] = disciplina.componentes
+
+    return JsonResponse(data, safe=False)
+
 def estatisticas(request):
     user = sigaa_api.getUserInfo(request)
     id_matriz_curricular = request.GET.get('id-matriz-curricular', -1);
     id_disciplina = request.GET.get('id-disciplina', -1);
 
-    return render(request, 'core/dashboard/estatisticas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular, 'id_disciplina': id_disciplina})
+    return render(request, 'core/estatisticas.html', {'user': user, 'id_matriz_curricular': id_matriz_curricular, 'id_disciplina': id_disciplina})

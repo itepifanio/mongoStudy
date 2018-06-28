@@ -79,8 +79,6 @@ def getMatriculas(request, id_discente):
         for matricula in response.json():
             matriculas.append(Matricula(matricula))
         return matriculas
-    else:
-        logger.error("DEU MERDA: " +  str(response.status_code))
     return None
 
 def getMatrizesCurricularesCurso(request, id_curso):
@@ -101,7 +99,6 @@ def getMatrizesCurricularesCurso(request, id_curso):
     return None
 
 def getDisciplinasCurso(request, id_matriz_curricular, obrigatoria = True,limit=100, offset=0):
-    logger = logging.getLogger(__name__)
     token = request.session.get('token')
     auth_headers = {
         'Authorization': 'bearer' + ' ' + token['access_token'],
@@ -113,9 +110,21 @@ def getDisciplinasCurso(request, id_matriz_curricular, obrigatoria = True,limit=
     if response.status_code == requests.codes.ok:
         disciplinas = []
         for disciplina in response.json():
-            logger.error(disciplina['codigo'])
             disciplinas.append(Disciplina(disciplina))
         return disciplinas
+    return None
+
+def getDisciplina(request, id_componente_curricular):
+    token = request.session.get('token')
+    auth_headers = {
+        'Authorization': 'bearer' + ' ' + token['access_token'],
+        'x-api-key': settings.API_SIGAA['CREDENTIALS']['X_API_KEY']
+    }
+
+    url = settings.API_SIGAA['ENDPOINTS']['CURSO'] + "/componentes-curriculares/" + str(id_componente_curricular)
+    response = requests.get(url, headers=auth_headers)
+    if response.status_code == requests.codes.ok:
+        return Disciplina(response.json())
     return None
 
 class User:
