@@ -166,7 +166,7 @@ def getDisciplina(request):
             componentes = []
             for componente in disciplina.componentes:
                 componentes.append({'id': componente.id, 'codigo': componente.codigo, 'nome': componente.nome, 'semestre': componente.semestre})
-            data['componentes'] = disciplina.componentes
+            data['componentes'] = componentes
 
     return JsonResponse(data, safe=False)
 
