@@ -14,7 +14,7 @@ port   = 27017
 try:
     #Estabelece conexão com a instância mongo
     client = MongoClient(server, port)
-    db = client.professorcheatsheet
+    db = client.professorCheatSheet
 except:
     print("Problema na conexão")
 
@@ -28,8 +28,8 @@ def listaProfessores(request):
     disciplina)
     """
 
-    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1)
-    id_componente_curricular = request.GET.get('id-componente-curricular', -1)
+    id_matriz_curricular = int(request.GET.get('id-matriz-curricular', -1))
+    id_componente_curricular = int(request.GET.get('id-componente-curricular', -1))
 
     professores = professorPorTurma(request, id_componente_curricular)
     professores_filtrados = []
@@ -176,9 +176,9 @@ def jsonProfessor(request, id_componente_curricular, siape):
 
 
 def detalhesProfessor(request):
-    id_matriz_curricular = request.GET.get('id-matriz-curricular', -1)
-    id_componente_curricular = request.GET.get('id-componente-curricular', -1)
-    siape = request.GET.get('siape', -1)
+    id_matriz_curricular = int(request.GET.get('id-matriz-curricular', -1))
+    id_componente_curricular = int(request.GET.get('id-componente-curricular', -1))
+    siape = int(request.GET.get('siape', -1))
 
     professor = db['docentes'].find_one({'siape':siape})
 
